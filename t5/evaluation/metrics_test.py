@@ -587,6 +587,29 @@ class MetricsTest(test_utils.BaseMetricsTest):
         metrics.coqa_f1([["jump the box"], ["maru"]], ["jump", "cat"]),
         {"f1": 1 / 3})
 
+  def test_edit_distance(self):
+    results = metrics.edit_distance(
+        ["This is a sentence."], ["This is a different SENTENCE."])
+    self.assertDictClose(
+        results, {
+            "max_edit": 1,
+            "mean_edit": 1.0,
+            "median_edit": 1.0,
+            "min_edit": 1,
+            "sum_edit": 1
+        })
+    results = metrics.edit_distance(
+        ["This is a sentence."], ["This is a different SENTENCE."], lower=False)
+    self.assertDictClose(
+        results,
+        {
+            "max_edit": 2,
+            "mean_edit": 2.0,
+            "median_edit": 2.0,
+            "min_edit": 2,
+            "sum_edit": 2
+        })
+
 
 if __name__ == "__main__":
   absltest.main()
