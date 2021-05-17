@@ -2797,6 +2797,10 @@ def sentinel_id(vocabulary, return_value=None):
   Returns:
     an integer
   """
+  # Prefer vocabulary's implementation first since it knows if it has a
+  # properly defined/allocated sentinel ID.
+  if vocabulary.sentinel_id is not None:
+    return vocabulary.sentinel_id
   if return_value is not None:
     return return_value
   return vocabulary.vocab_size - 1
